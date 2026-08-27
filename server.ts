@@ -88,7 +88,7 @@ async function startServer() {
   app.post("/api/auth/login", async (req, res) => {
     try {
       const { username, password } = req.body || {};
-      let validUsername = process.env.AUTH_USERNAME || "www.yefriharyanto.id";
+      let validUsername = process.env.AUTH_USERNAME || "admin";
       let validPassword = process.env.AUTH_PASSWORD || "123456";
 
       // Query Firestore database directly for updated credentials saved in Pengaturan
@@ -122,7 +122,7 @@ async function startServer() {
 
       const inputUsername = String(username).trim().toUpperCase();
       const expectedUsername = String(validUsername).trim().toUpperCase();
-      const isUsernameMatch = inputUsername === expectedUsername || inputUsername === "ARDI YOKA" || inputUsername === "WWW.YEFRIHARYANTO.ID";
+      const isUsernameMatch = inputUsername === expectedUsername || inputUsername === "ADMIN" || inputUsername === "GEDE HARI WIJAYA";
 
       if (isUsernameMatch && String(password).trim() === validPassword) {
         // Generate a server-signed session token
@@ -133,8 +133,8 @@ async function startServer() {
           status: "success",
           token,
           user: {
-            username: "www.yefriharyanto.id",
-            nama: "www.yefriharyanto.id",
+            username: validUsername,
+            nama: "Gede Hari Wijaya, S.Pd., Gr.",
             role: "Administrator Guru"
           }
         });
@@ -886,8 +886,8 @@ KETENTUAN LAYOUT HTML:
         year = "2026/2027",
         totalJp = "72 JP / Tahun",
         jpPerMinggu = "2 JP/Minggu",
-        teacher = "Drs. Yefri Haryanto, M.Pd.",
-        nipTeacher = "19850312 201001 1 008",
+        teacher = "Gede Hari Wijaya, S.Pd., Gr.",
+        nipTeacher = "19880512 201502 1 002",
         cityDate = "Kerinci, 14 Juli 2026",
         principal = "Hamdani, S.Pd., M.Si.",
         nipPrincipal = "19780514 200212 1 003",
@@ -1457,8 +1457,8 @@ Sajikan seluruh hasil dalam format terstruktur rapi (heading A–H sesuai di ata
       const totalQuestions = formData?.totalQuestions || "40 Butir Soal (30 Pilihan Ganda, 5 Isian Singkat, 5 Uraian)";
       const rawMateriSoal = formData?.sumberMateri || "";
       const logoUrl = formData?.logoUrl || "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU";
-      const teacher = formData?.teacher || "Drs. Yefri Haryanto, M.Pd.";
-      const nipTeacher = formData?.nipTeacher || "19850312 201001 1 008";
+      const teacher = formData?.teacher || "Gede Hari Wijaya, S.Pd., Gr.";
+      const nipTeacher = formData?.nipTeacher || "19880512 201502 1 002";
       const principal = formData?.principal || "Hamdani, S.Pd., M.Si.";
       const nipPrincipal = formData?.nipPrincipal || "19780514 200212 1 003";
       const cityDate = formData?.cityDate || "Kerinci, 1 Desember 2026";

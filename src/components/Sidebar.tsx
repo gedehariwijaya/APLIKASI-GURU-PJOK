@@ -21,7 +21,9 @@ import {
   Download,
   Globe,
   FileQuestion,
-  Compass
+  Compass,
+  Sun,
+  Moon
 } from "lucide-react";
 
 interface SidebarProps {
@@ -29,13 +31,17 @@ interface SidebarProps {
   setActiveTab: (tab: string) => void;
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
+  isDarkMode?: boolean;
+  onToggleDarkMode?: () => void;
 }
 
 export const Sidebar: React.FC<SidebarProps> = ({
   activeTab,
   setActiveTab,
   isOpen,
-  setIsOpen
+  setIsOpen,
+  isDarkMode = false,
+  onToggleDarkMode
 }) => {
   const navItems = [
     {
@@ -165,20 +171,50 @@ export const Sidebar: React.FC<SidebarProps> = ({
           ))}
         </div>
 
+        {/* Theme Toggle in Sidebar */}
+        {onToggleDarkMode && (
+          <div className="px-4 py-3 border-t border-slate-800 bg-slate-950/70 flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              {isDarkMode ? (
+                <Moon className="w-4 h-4 text-indigo-400" />
+              ) : (
+                <Sun className="w-4 h-4 text-amber-400" />
+              )}
+              <span className="text-xs font-semibold text-slate-300">
+                {isDarkMode ? "Tema Gelap" : "Tema Terang"}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={onToggleDarkMode}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center space-x-1.5 cursor-pointer active:scale-95 ${
+                isDarkMode 
+                  ? "bg-indigo-600 hover:bg-indigo-500 text-white shadow-xs" 
+                  : "bg-amber-400 hover:bg-amber-300 text-slate-950 shadow-xs"
+              }`}
+              aria-label="Ganti Tema"
+            >
+              {isDarkMode ? (
+                <>
+                  <Sun className="w-3.5 h-3.5" />
+                  <span>Ke Terang</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3.5 h-3.5" />
+                  <span>Ke Gelap</span>
+                </>
+              )}
+            </button>
+          </div>
+        )}
+
         {/* Footer info & Creator Credit */}
         <div className="p-4 border-t border-slate-800 text-center text-[11px] text-slate-400 bg-slate-950/50 space-y-1">
           <p className="font-semibold text-slate-300">Aplikasi Guru AI</p>
           <p className="text-[11px] text-slate-400 font-medium">
-            Created by <span className="font-bold text-slate-200">Yefri Haryanto</span>
+            Created by : <span className="font-bold text-slate-200">Gede Hari Wijaya, S.Pd., Gr.</span>
           </p>
-          <a
-            href="https://www.yefriharyanto.id"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block text-[11px] text-blue-400 hover:text-blue-300 hover:underline transition-colors font-mono font-medium"
-          >
-            www.yefriharyanto.id
-          </a>
         </div>
       </aside>
     </>

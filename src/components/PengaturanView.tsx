@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Settings, Save, ShieldCheck, School, UserCheck, Trash2, ShieldAlert, KeyRound, Eye, EyeOff, Globe } from "lucide-react";
+import { Settings, Save, ShieldCheck, School, UserCheck, Trash2, ShieldAlert, KeyRound, Eye, EyeOff, Globe, Sun, Moon, Palette } from "lucide-react";
 import { Pengaturan } from "../types";
 import { savePengaturan } from "../lib/firebase";
 import { notifySimpanSuccess, notifySimpanError } from "../lib/swal";
@@ -7,9 +7,11 @@ import { notifySimpanSuccess, notifySimpanError } from "../lib/swal";
 interface PengaturanViewProps {
   config: Pengaturan;
   onNavigateToReset?: () => void;
+  isDarkMode?: boolean;
+  onSetDarkMode?: (isDark: boolean) => void;
 }
 
-export const PengaturanView: React.FC<PengaturanViewProps> = ({ config, onNavigateToReset }) => {
+export const PengaturanView: React.FC<PengaturanViewProps> = ({ config, onNavigateToReset, isDarkMode = false, onSetDarkMode }) => {
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState<Pengaturan>({
     Nama_Guru: "",
@@ -22,7 +24,7 @@ export const PengaturanView: React.FC<PengaturanViewProps> = ({ config, onNaviga
     Tempat_Tanda_Tangan: "",
     Logo_Kiri: "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU",
     Logo_Kanan: "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU",
-    username: "www.yefriharyanto.id",
+    username: "admin",
     password: "123456"
   });
 
@@ -39,7 +41,7 @@ export const PengaturanView: React.FC<PengaturanViewProps> = ({ config, onNaviga
         Tempat_Tanda_Tangan: config.Tempat_Tanda_Tangan || "",
         Logo_Kiri: config.Logo_Kiri || "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU",
         Logo_Kanan: config.Logo_Kanan || "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU",
-        username: config.username || "www.yefriharyanto.id",
+        username: config.username || "admin",
         password: config.password || "123456"
       });
     }
@@ -240,7 +242,51 @@ export const PengaturanView: React.FC<PengaturanViewProps> = ({ config, onNaviga
             </div>
           </div>
 
-          {/* Box 5: Informasi & Kredit Pengembang */}
+          {/* Box 5: Tampilan & Mode Tema (Gelap / Terang) */}
+          <div className="p-5 bg-white dark:bg-slate-800/80 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-xs space-y-4">
+            <h3 className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2">
+              <Palette className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+              Tampilan Antarmuka & Mode Tema Aplikasi
+            </h3>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-3 bg-slate-50 dark:bg-slate-900/60 rounded-xl border border-slate-200/80 dark:border-slate-700/80">
+              <div className="space-y-1">
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                  Pilih Mode Tema (Light / Dark Mode)
+                </span>
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                  Mode aktif saat ini: <strong className="text-blue-600 dark:text-blue-400">{isDarkMode ? "Tema Gelap (Dark Mode)" : "Tema Terang (Light Mode)"}</strong>
+                </p>
+              </div>
+              <div className="flex items-center space-x-2">
+                <button
+                  type="button"
+                  onClick={() => onSetDarkMode && onSetDarkMode(false)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 cursor-pointer ${
+                    !isDarkMode
+                      ? "bg-amber-400 text-slate-950 shadow-md scale-105"
+                      : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-amber-400"
+                  }`}
+                >
+                  <Sun className="w-4 h-4 text-amber-500" />
+                  <span>Tema Terang</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onSetDarkMode && onSetDarkMode(true)}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center space-x-2 cursor-pointer ${
+                    isDarkMode
+                      ? "bg-indigo-600 text-white shadow-md scale-105"
+                      : "bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:border-indigo-500"
+                  }`}
+                >
+                  <Moon className="w-4 h-4 text-indigo-400" />
+                  <span>Tema Gelap</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Box 6: Informasi & Kredit Pengembang */}
           <div className="p-5 bg-gradient-to-br from-slate-50 to-slate-100/80 dark:from-slate-800/60 dark:to-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-700/80 space-y-3">
             <h3 className="font-bold text-xs uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2">
               <Globe className="w-4 h-4 text-blue-600 dark:text-blue-400" />
@@ -255,18 +301,8 @@ export const PengaturanView: React.FC<PengaturanViewProps> = ({ config, onNaviga
               </div>
               <div className="sm:text-right shrink-0">
                 <span className="inline-block px-3 py-1 bg-blue-100 dark:bg-blue-900/50 text-blue-800 dark:text-blue-300 rounded-full font-bold text-[11px]">
-                  Created by Yefri Haryanto
+                  Created by : Gede Hari Wijaya, S.Pd., Gr.
                 </span>
-                <div className="mt-1">
-                  <a
-                    href="https://www.yefriharyanto.id"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-600 dark:text-blue-400 font-mono text-xs hover:underline font-bold"
-                  >
-                    www.yefriharyanto.id
-                  </a>
-                </div>
               </div>
             </div>
           </div>

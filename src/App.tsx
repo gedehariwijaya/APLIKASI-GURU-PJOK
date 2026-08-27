@@ -70,14 +70,14 @@ import {
 } from "./types";
 
 const DEFAULT_CONFIG: Pengaturan = {
-  Nama_Guru: "Drs. Yefri Haryanto, M.Pd.",
-  NIP_Guru: "19850312 201001 1 008",
-  Pemerintah: "PEMERINTAH PROVINSI JAMBI",
-  Nama_Sekolah: "SMP NEGERI 3 KERINCI",
-  Alamat_Sekolah: "Jalan Raya Lintas Sungai Penuh, Telp: (0748) 21102",
-  Nama_Kepsek: "Hamdani, S.Pd., M.Si.",
+  Nama_Guru: "Gede Hari Wijaya, S.Pd., Gr.",
+  NIP_Guru: "19880512 201502 1 002",
+  Pemerintah: "DINAS PENDIDIKAN KEPEMUDAAN DAN OLAHRAGA",
+  Nama_Sekolah: "SMA NEGERI 1",
+  Alamat_Sekolah: "Jl. Pendidikan No. 1",
+  Nama_Kepsek: "Kepala Sekolah, M.Pd.",
   NIP_Kepsek: "19780514 200212 1 003",
-  Tempat_Tanda_Tangan: "Kerinci",
+  Tempat_Tanda_Tangan: "Denpasar",
   Logo_Kiri: "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU",
   Logo_Kanan: "https://lh3.googleusercontent.com/d/19TVwFRIp_t7sHTMntziM9SgZVoJAkhQU"
 };
@@ -117,7 +117,13 @@ export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [activeCategorySheet, setActiveCategorySheet] = useState<"akademik" | "ai" | "laporan" | null>(null);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    return localStorage.getItem("edadmin_theme") === "dark";
+    const saved = localStorage.getItem("edadmin_theme");
+    if (saved === "dark") return true;
+    if (saved === "light") return false;
+    if (typeof window !== "undefined" && window.matchMedia) {
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+    }
+    return false;
   });
   const [isConnected, setIsConnected] = useState(false);
 
@@ -334,6 +340,8 @@ export default function App() {
         setActiveTab={setActiveTab}
         isOpen={sidebarOpen}
         setIsOpen={setSidebarOpen}
+        isDarkMode={isDarkMode}
+        onToggleDarkMode={() => setIsDarkMode(!isDarkMode)}
       />
 
       {/* Main Content Workspace */}
@@ -542,6 +550,8 @@ export default function App() {
             <PengaturanView
               config={config}
               onNavigateToReset={() => setActiveTab("resetdb")}
+              isDarkMode={isDarkMode}
+              onSetDarkMode={(isDark) => setIsDarkMode(isDark)}
             />
           )}
 
@@ -554,16 +564,7 @@ export default function App() {
             <div className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-4 py-2 rounded-2xl bg-white/70 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80 shadow-xs backdrop-blur-xs text-xs text-slate-600 dark:text-slate-400">
               <span className="font-semibold text-slate-800 dark:text-slate-200">Aplikasi Guru AI</span>
               <span className="text-slate-300 dark:text-slate-600">&bull;</span>
-              <span>Created by <strong className="text-blue-600 dark:text-blue-400 font-bold">Yefri Haryanto</strong></span>
-              <span className="text-slate-300 dark:text-slate-600">&bull;</span>
-              <a
-                href="https://www.yefriharyanto.id"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-mono font-medium hover:underline"
-              >
-                www.yefriharyanto.id
-              </a>
+              <span>Created by : <strong className="text-blue-600 dark:text-blue-400 font-bold">Gede Hari Wijaya, S.Pd., Gr.</strong></span>
             </div>
           </footer>
         </main>

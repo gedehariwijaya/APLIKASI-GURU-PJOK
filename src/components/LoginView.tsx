@@ -196,16 +196,8 @@ export const LoginView: React.FC<LoginViewProps> = ({
       {/* Footer Credit Section */}
       <footer className="w-full max-w-md mx-auto text-center z-10 py-3 space-y-1">
         <p className="text-xs font-semibold text-slate-700 dark:text-slate-300">
-          Aplikasi Guru AI &bull; Created by <span className="text-blue-600 dark:text-blue-400 font-bold">Yefri Haryanto</span>
+          Aplikasi Guru AI &bull; Created by : <span className="text-blue-600 dark:text-blue-400 font-bold">Gede Hari Wijaya, S.Pd., Gr.</span>
         </p>
-        <a
-          href="https://www.yefriharyanto.id"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center text-[11px] text-slate-500 hover:text-blue-600 dark:text-slate-400 dark:hover:text-blue-400 font-mono hover:underline transition-colors font-medium"
-        >
-          www.yefriharyanto.id
-        </a>
       </footer>
     </div>
   );
